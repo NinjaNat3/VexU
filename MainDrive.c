@@ -29,6 +29,7 @@ task main()
 	float previousSpeedXRight = 0;
 	float previousSpeedXLeft = 0;
 	
+	float errorCoeff = 4 / 5;
 	
 	while(1 == 1)
 	{
@@ -41,10 +42,10 @@ task main()
 		float speedXLeft;
 
 		//Probability factor
-		float errorFrontRight 	= 0.99 * (speedFrontRight - previousSpeedFrontRight);
-		float errorBackRight	= 0.99 * (speedBackRight - previousSpeedBackRight);
-		float errorFrontLeft	= 0.99 * (speedFrontLeft - previousSpeedFrontLeft);
-		float errorBackLeft	= 0.99 * (speedBackLeft - previousSpeedBackLeft);
+		float errorFrontRight 	= errorCoeff * (speedFrontRight - previousSpeedFrontRight);
+		float errorBackRight	= errorCoeff * (speedBackRight - previousSpeedBackRight);
+		float errorFrontLeft	= errorCoeff * (speedFrontLeft - previousSpeedFrontLeft);
+		float errorBackLeft	= errorCoeff * (speedBackLeft - previousSpeedBackLeft);
 		float errorXRight;
 		float errorXLeft;
 
@@ -64,8 +65,8 @@ task main()
 		//Lift-up
 		if (vexRT[Btn5U] == 1)
 		{
-			errorXRight 	= 0.9 * (xSpeed - previousSpeedXRight);
-			errorXLeft 	= 0.9 * (xSpeed - previousSpeedXLeft);
+			errorXRight 	= errorCoeff * (xSpeed - previousSpeedXRight);
+			errorXLeft 	= errorCoeff * (xSpeed - previousSpeedXLeft);
 			
 			speedXRight 	= xSpeed - errorXRight;
 			speedXLeft 	= xSpeed - errorXLeft;
@@ -79,8 +80,8 @@ task main()
 		//Lower
 		else if (vexRT[Btn5D] == 1)
 		{
-			errorXRight 	= 0.9 * (-xSpeed - previousSpeedXRight);
-			errorXLeft 	= 0.9 * (-xSpeed - previousSpeedXLeft);
+			errorXRight 	= errorCoeff * (-xSpeed - previousSpeedXRight);
+			errorXLeft 	= errorCoeff * (-xSpeed - previousSpeedXLeft);
 			
 			speedXRight 	= -xSpeed - errorXRight;
 			speedXLeft 	= -xSpeed - errorXLeft;
@@ -94,8 +95,8 @@ task main()
 		//Stop
 		else
 		{
-			errorXRight 	= 0.9 * previousSpeedXRight;
-			errorXLeft 	= 0.9 * previousSpeedXLeft;
+			errorXRight 	= errorCoeff * previousSpeedXRight;
+			errorXLeft 	= errorCoeff * previousSpeedXLeft;
 			
 			speedXRight 	= errorXRight;
 			speedXLeft	= errorXLeft;
