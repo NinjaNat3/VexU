@@ -16,16 +16,42 @@ task main()
 	//Tank uses Ch 2 and Ch3
 	//Strafe use Ch 1
 	//Turn in Place use Ch 4
+	
+	//Use Probability loop to slowly ram up speed
+	float previousSpeedFrontRight = 0;
+	float previousSpeedBackRight = 0;
+	float previousSpeedFrontLeft = 0;
+	float previousSpeedBackLeft = 0;
+	
 	while(1 == 1)
 	{
 		//Remote Control Commands
-
-		//Tank Drive
-		motor[frontRight] 	= - vexRT[Ch2]/4 + vexRT[Ch1]/4 + vexRT[Ch4]/3;
-		motor[backRight] 		= - vexRT[Ch2]/4 - vexRT[Ch1]/4 + vexRT[Ch4]/3;
-		motor[frontLeft] 		= vexRT[Ch3]/4 + vexRT[Ch1]/4 + vexRT[Ch4]/3;
-		motor[backLeft] 		= vexRT[Ch3]/4 - vexRT[Ch1]/4 + vexRT[Ch4]/3;
-
+		float speedFrontRight 	= - vexRT[Ch2]/4 + vexRT[Ch1]/4 + vexRT[Ch4]/3;
+		float speedBackRight 	= - vexRT[Ch2]/4 - vexRT[Ch1]/4 + vexRT[Ch4]/3;
+		float speedFrontLeft	= vexRT[Ch3]/4 + vexRT[Ch1]/4 + vexRT[Ch4]/3;
+		float speedBackLeft	= vexRT[Ch3]/4 - vexRT[Ch1]/4 + vexRT[Ch4]/3;
+		
+		//Probability factor
+		float errorFrontRight 	= 0.99 * (speedFrontRight - previousSpeedFrontRight);
+		float errorBackRight	= 0.99 * (speedBackRight - previousSpeedBackRight);
+		float errorFrontLeft	= 0.99 * (speedFrontLeft - previousSpeedFrontLeft);
+		float errorBackLeft	= 0.99 * (speedBackLeft - previousSpeedBackLeft);
+		
+		//Swerve Drive with P-Loop
+		motor[frontRight] 	= speedFrontRight - errorFrontRight;
+		motor[backRight] 	= speedBackRight - errorBackRight;
+		motor[frontLeft] 	= speedFrontLeft - errorFrontLeft;
+		motor[backLeft] 	= speedBackLeft - errorBackLeft;
+		
+		//New previous Speed
+		previousSpeedFrontRight = speedFrontRight - errorFrontRight;
+		previousSpeedBackRight 	= speedBackRight - errorBackRight;
+		previousSpeedFrontLeft	= speedFrontLeft - errorFrontLeft;
+		previousSpeedBackLeft	= speedBackLeft - errorBackLeft;
+		
+		//Wait before running loop again by 10ms
+		delay(50);
+		
 		/*if(vexRT[Ch1] < - minControl)
 		{
 			//Strafe left
@@ -35,7 +61,7 @@ task main()
 			//backLeft froward
 			while (vexRT[Ch1] < - minControl)
 			{
-				motor[frontRight] 	= strafeSpeed;
+				motor[frontRight] 		= strafeSpeed;
 				motor[backRight] 		= - strafeSpeed;
 				motor[frontLeft] 		= - strafeSpeed;
 				motor[backLeft] 		= strafeSpeed;
