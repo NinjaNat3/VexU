@@ -109,8 +109,6 @@ task main()
 		
 		//Wait before running loop again by 10ms
 		delay(50);
-	}
-}
 
 		/*if(vexRT[Ch1] < - minControl)
 		{
