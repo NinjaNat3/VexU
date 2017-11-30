@@ -25,7 +25,7 @@ task main()
 	float previousSpeedFrontLeft = 0;
 	float previousSpeedBackLeft = 0;
 	
-	float xSpeed = 63;
+	float xSpeed = 31;
 	float previousSpeedXRight = 0;
 	float previousSpeedXLeft = 0;
 	
@@ -33,10 +33,10 @@ task main()
 	while(1 == 1)
 	{
 		//Remote Control Commands
-		float speedFrontRight 	= - vexRT[Ch2]/4 + vexRT[Ch1]/4 + vexRT[Ch4]/3;
-		float speedBackRight 	= - vexRT[Ch2]/4 - vexRT[Ch1]/4 + vexRT[Ch4]/3;
-		float speedFrontLeft	= - vexRT[Ch3]/4 - vexRT[Ch1]/4 - vexRT[Ch4]/3;
-		float speedBackLeft	= - vexRT[Ch3]/4 + vexRT[Ch1]/4 - vexRT[Ch4]/3;
+		float speedFrontRight 	= - vexRT[Ch2]/3 + vexRT[Ch1]/3 + vexRT[Ch4]/3;
+		float speedBackRight 	= - vexRT[Ch2]/3 - vexRT[Ch1]/3 + vexRT[Ch4]/3;
+		float speedFrontLeft	= - vexRT[Ch3]/3 - vexRT[Ch1]/3 - vexRT[Ch4]/3;
+		float speedBackLeft	= - vexRT[Ch3]/3 + vexRT[Ch1]/3 - vexRT[Ch4]/3;
 		float speedXRight;
 		float speedXLeft;
 
