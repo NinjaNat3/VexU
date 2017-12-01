@@ -25,7 +25,7 @@ task main()
 	float previousSpeedFrontLeft = 0;
 	float previousSpeedBackLeft = 0;
 	
-	float xSpeed = 31;
+	float xSpeed = 127;
 	float previousSpeedXRight = 0;
 	float previousSpeedXLeft = 0;
 	
