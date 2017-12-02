@@ -33,18 +33,18 @@ task main()
 	while(1 == 1)
 	{
 		//Remote Control Commands
-		float speedFrontRight 	= - vexRT[Ch2]/2 + vexRT[Ch1]/2 + vexRT[Ch4]/2;
-		float speedBackRight 		= - vexRT[Ch2]/2 - vexRT[Ch1]/2 + vexRT[Ch4]/2;
-		float speedFrontLeft		= - vexRT[Ch3]/2 - vexRT[Ch1]/2 - vexRT[Ch4]/2;
-		float speedBackLeft			= - vexRT[Ch3]/2 + vexRT[Ch1]/2 - vexRT[Ch4]/2;
+		float speedFrontRight 	= - vexRT[Ch2] + vexRT[Ch1] + vexRT[Ch4];
+		float speedBackRight 	= - vexRT[Ch2] - vexRT[Ch1] + vexRT[Ch4];
+		float speedFrontLeft	= - vexRT[Ch3] - vexRT[Ch1] - vexRT[Ch4];
+		float speedBackLeft	= - vexRT[Ch3] + vexRT[Ch1] - vexRT[Ch4];
 		float speedXRight;
 		float speedXLeft;
 					
-		float speedArray[4] = {speedFrontRight, speedBackRight, speedFrontLeft, speedBackLeft};
-		float maximum 			= -127;
-		int maxPos 					= 0;
-		float minimum 			= 127;
-		int minPos 					= 0;
+		float speedArray[4] 	= {speedFrontRight, speedBackRight, speedFrontLeft, speedBackLeft};
+		float maximum 		= -127;
+		int maxPos 		= 0;
+		float minimum 		= 127;
+		int minPos 		= 0;
 		
 		//Find max and min speed and which one is each 
 		for (int i = 0; i < 4; i++)
@@ -108,15 +108,15 @@ task main()
 		}
 		
 		//Probability factor
-		float errorFrontRight = errorCoeff * (speedFrontRight - previousSpeedFrontRight);
+		float errorFrontRight 	= errorCoeff * (speedFrontRight - previousSpeedFrontRight);
 		float errorBackRight	= errorCoeff * (speedBackRight - previousSpeedBackRight);
 		float errorFrontLeft	= errorCoeff * (speedFrontLeft - previousSpeedFrontLeft);
-		float errorBackLeft		= errorCoeff * (speedBackLeft - previousSpeedBackLeft);
+		float errorBackLeft	= errorCoeff * (speedBackLeft - previousSpeedBackLeft);
 		float errorXRight;
 		float errorXLeft;
 
 		//Swerve Drive with P-Loop
-		motor[frontRight] = speedFrontRight - errorFrontRight;
+		motor[frontRight] 	= speedFrontRight - errorFrontRight;
 		motor[backRight] 	= speedBackRight - errorBackRight;
 		motor[frontLeft] 	= speedFrontLeft - errorFrontLeft;
 		motor[backLeft] 	= speedBackLeft - errorBackLeft;
@@ -125,52 +125,52 @@ task main()
 		previousSpeedFrontRight = speedFrontRight - errorFrontRight;
 		previousSpeedBackRight 	= speedBackRight - errorBackRight;
 		previousSpeedFrontLeft	= speedFrontLeft - errorFrontLeft;
-		previousSpeedBackLeft		= speedBackLeft - errorBackLeft;
+		previousSpeedBackLeft	= speedBackLeft - errorBackLeft;
 
 		//X-Lift with P-Loop
 		//Lift-up
 		if (vexRT[Btn5U] == 1)
 		{
 			errorXRight 	= errorCoeff * (xSpeed - previousSpeedXRight);
-			errorXLeft 		= errorCoeff * (xSpeed - previousSpeedXLeft);
+			errorXLeft 	= errorCoeff * (xSpeed - previousSpeedXLeft);
 
 			speedXRight 	= xSpeed - errorXRight;
-			speedXLeft 		= xSpeed - errorXLeft;
+			speedXLeft 	= xSpeed - errorXLeft;
 
 			motor[xRight]	= speedXRight;
 			motor[xLeft] 	= speedXLeft;
 
-			previousSpeedXRight = speedXRight;
+			previousSpeedXRight 	= speedXRight;
 			previousSpeedXLeft 	= speedXLeft;
 		}
 		//Lower
 		else if (vexRT[Btn5D] == 1)
 		{
 			errorXRight 	= errorCoeff * (-xSpeed - previousSpeedXRight);
-			errorXLeft 		= errorCoeff * (-xSpeed - previousSpeedXLeft);
+			errorXLeft 	= errorCoeff * (-xSpeed - previousSpeedXLeft);
 
 			speedXRight 	= -xSpeed - errorXRight;
-			speedXLeft 		= -xSpeed - errorXLeft;
+			speedXLeft 	= -xSpeed - errorXLeft;
 
 			motor[xRight]	= speedXRight;
 			motor[xLeft] 	= speedXLeft;
 
-			previousSpeedXRight = speedXRight;
+			previousSpeedXRight 	= speedXRight;
 			previousSpeedXLeft 	= speedXLeft;
 		}
 		//Stop
 		else
 		{
-			errorXRight = errorCoeff * previousSpeedXRight;
+			errorXRight 	= errorCoeff * previousSpeedXRight;
 			errorXLeft 	= errorCoeff * previousSpeedXLeft;
 
-			speedXRight = errorXRight;
+			speedXRight	= errorXRight;
 			speedXLeft	= errorXLeft;
 
 			motor[xRight]	= speedXRight;
 			motor[xLeft] 	= speedXLeft;
 
-			previousSpeedXRight = speedXRight;
+			previousSpeedXRight	= speedXRight;
 			previousSpeedXLeft	= speedXLeft;
 		}
 
