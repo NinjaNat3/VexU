@@ -237,11 +237,11 @@ void resetValues(){
 	SensorValue(backLeftQuad) = 0;
 }
 
-void encoderForward(int speed, int dist){
+void encoderForward(float speed, float dist){
 
 	resetValues();
 
-	int ticks = dist/wheelC * 360;
+	float ticks = dist/wheelC * 360;
 	while( (abs(SensorValue(frontRightQuad)) < ticks) &&
 		(abs(SensorValue(backRightQuad)) < ticks) &&
 		(abs(SensorValue(frontLeftQuad)) < ticks) &&
@@ -255,26 +255,24 @@ void encoderForward(int speed, int dist){
 		motor[frontRight] = speed+rMod;
 		*/
 
-		float distToEnd = ticks - abs(SensorValue(frontRightQuad));
-		float speedChangeFactor = speed * speedError * distToEnd / ticks;
-		driveForward(speedChangeFactor);
+		float speedChangeFactor = speed * speedError * abs(SensorValue(frontRightQuad))/ ticks;
+		driveForward(speed - speedChangeFactor);
 	}
 	stopRobot();
 }
 
-void encoderBackward(int speed, int dist){
+void encoderBackward(float speed, float dist){
 
 	resetValues();
 
-	int ticks = dist/wheelC * 360;
+	float ticks = dist/wheelC * 360;
 	while( (abs(SensorValue(frontRightQuad)) < ticks) &&
 		(abs(SensorValue(backRightQuad)) < ticks) &&
 		(abs(SensorValue(frontLeftQuad)) < ticks) &&
 		(abs(SensorValue(backLeftQuad)) < ticks)){
-		float distToEnd = ticks - abs(SensorValue(frontRightQuad));
-		float speedChangeFactor = speed * speedError * distToEnd / ticks;
-		driveForward(speedChangeFactor);
-	}
+		float speedChangeFactor = speed * speedError * abs(SensorValue(frontRightQuad))/ ticks;
+		driveForward(speed - speedChangeFactor);	
+		}
 	stopRobot();
 }
 
@@ -287,9 +285,8 @@ void encoderTurnLeft(float speed, float dist){
 		(abs(SensorValue(backRightQuad)) < ticks) &&
 		(abs(SensorValue(frontLeftQuad)) < ticks) &&
 		(abs(SensorValue(backLeftQuad)) < ticks)){
-		float distToEnd = ticks - abs(SensorValue(frontRightQuad));
-		float speedChangeFactor = speed * speedError * distToEnd / ticks;
-		driveForward(speedChangeFactor);
+		float speedChangeFactor = speed * speedError * abs(SensorValue(frontRightQuad))/ ticks;
+		driveForward(speed - speedChangeFactor);
 	}
 	stopRobot();
 }
@@ -303,9 +300,8 @@ void encoderTurnRight(float speed, float dist){
 		(abs(SensorValue(backRightQuad)) < ticks) &&
 		(abs(SensorValue(frontLeftQuad)) < ticks) &&
 		(abs(SensorValue(backLeftQuad)) < ticks)){
-		float distToEnd = ticks - abs(SensorValue(frontRightQuad));
-		float speedChangeFactor = speed * speedError * distToEnd / ticks;
-		driveForward(speedChangeFactor);
+		float speedChangeFactor = speed * speedError * abs(SensorValue(frontRightQuad))/ ticks;
+		driveForward(speed - speedChangeFactor);
 	}
 	stopRobot();
 }
