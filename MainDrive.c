@@ -78,7 +78,7 @@ float minproportion;
 float disBetweenWheel = 43.18; //in cm
 float turnSpeed = 63;
 
-float speedError = 1/2;
+float speedError = 9/10;
 
 void driveForward(float speed)
 {
@@ -258,7 +258,6 @@ void encoderForward(float speed, float dist){
 		float speedChangeFactor = speed * speedError * abs(SensorValue(frontRightQuad))/ ticks;
 		driveForward(speed - speedChangeFactor);
 	}
-	stopRobot();
 }
 
 void encoderBackward(float speed, float dist){
@@ -271,9 +270,8 @@ void encoderBackward(float speed, float dist){
 		(abs(SensorValue(frontLeftQuad)) < ticks) &&
 		(abs(SensorValue(backLeftQuad)) < ticks)){
 		float speedChangeFactor = speed * speedError * abs(SensorValue(frontRightQuad))/ ticks;
-		driveForward(speed - speedChangeFactor);	
+		driveForward(speed - speedChangeFactor);
 		}
-	stopRobot();
 }
 
 void encoderTurnLeft(float speed, float dist){
@@ -288,7 +286,6 @@ void encoderTurnLeft(float speed, float dist){
 		float speedChangeFactor = speed * speedError * abs(SensorValue(frontRightQuad))/ ticks;
 		driveForward(speed - speedChangeFactor);
 	}
-	stopRobot();
 }
 
 void encoderTurnRight(float speed, float dist){
@@ -303,7 +300,20 @@ void encoderTurnRight(float speed, float dist){
 		float speedChangeFactor = speed * speedError * abs(SensorValue(frontRightQuad))/ ticks;
 		driveForward(speed - speedChangeFactor);
 	}
-	stopRobot();
+}
+
+void encoderStop()
+{
+	while (abs(previousSpeedFrontRight) > 3)
+	{
+		stopRobot();
+		delay(50)
+	}
+	motor[frontRight] 	= 0;
+	motor[backRight] 	= 0;
+	motor[frontLeft] 	= 0;
+	motor[backLeft] 	= 0;
+
 }
 
 float distTurn()
@@ -375,46 +385,54 @@ task autonomous()
 	//change this as see fit
 	driveForward(120); //go forward at 120/127 speed
 	wait1Msec(1000); //stop for 1 sec
-	stopRobot();
+	encoderStop();
 
 	turnLeft(95); // turn left at 95/127 speed
 	wait1Msec(1000); //stop for 1 sec
-	stopRobot();
+	encoderStop();
 
 	driveBackward(120);  //drive backward at 120/127 speed
 	wait1Msec(1000); //stop for 1 sec
-	stopRobot();
+	encoderStop();
 
 	turnRight(120);  //drive backward at 120/127 speed
 	wait1Msec(1000); //stop for 1 sec
-	stopRobot();
+	encoderStop();
 
 	/////////////////////////////////////
 	//				with encoders            //
 	//	I don't know if this is works  //
 	/////////////////////////////////////
 	encoderForward(120, 69); //go forward 69cm at 120 power
+	encoderStop();
 	wait1Msec(1000);
 
 	encoderTurnLeft(95, 10);
+	encoderStop();
 	wait1Msec(1000);
 
 	encoderBackward(120, 50);
+	encoderStop();
 	wait1Msec(1000);
 
 	encoderTurnRight(95, 20);
+	encoderStop();
 	wait1Msec(1000);
 
 	turnExactLeft();
+	encoderStop();
 	wait1Msec(1000);
 
 	turnExactRight();
+	encoderStop();
 	wait1Msec(1000);
 
 	strafeRight(63);
+	encoderStop();
 	wait1Msec(1000);
 
 	strafeLeft(127);
+	encoderStop();
 	wait1Msec(1000);
 
 	xScissorUp();
