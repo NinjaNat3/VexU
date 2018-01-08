@@ -307,7 +307,7 @@ void encoderStop()
 	while (abs(previousSpeedFrontRight) > 3)
 	{
 		stopRobot();
-		delay(50)
+		delay(50);
 	}
 	motor[frontRight] 	= 0;
 	motor[backRight] 	= 0;
